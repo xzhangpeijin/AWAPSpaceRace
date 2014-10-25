@@ -1,5 +1,6 @@
 package awap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class State {
 	private int turn;
 	private int move = -1;
 	private String url;
-	private List<List<Integer>> bonusSquares;
+	private List<Point> bonusSquares;
 
 	public String getUrl() {
 		return url;
@@ -48,7 +49,11 @@ public class State {
 	@SuppressWarnings("unchecked")
 	public void setBoard(Map<String, Object> board) {
 		this.board = (List<List<Integer>>) board.get("grid");
-    this.bonusSquares = (List<List<Integer>>) board.get("bonus_squares");
+    List<List<Integer>> bonus = (List<List<Integer>>) board.get("bonus_squares");
+    bonusSquares = new ArrayList<Point>();
+    for (List<Integer> point: bonus) {
+      bonusSquares.add(new Point(point.get(1), point.get(0)));
+    }
 		this.setDimension((int) board.get("dimension"));
 	}
 
@@ -93,7 +98,7 @@ public class State {
 		this.blocks = blockList;
 	}
 
-	public List<List<Integer>> getBonusSquares() {
+	public List<Point> getBonusSquares() {
 		return bonusSquares;
 	}
 

@@ -1,12 +1,33 @@
 package awap;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.common.base.Optional;
 
-public class Game {
-	private State state;
-	private Integer number;
+public abstract class Game {
+	protected State state;
+	protected Integer number;
+	protected final int dimension;
+
+	private String[] bonus = {"9 2","17 9","2 10","10 17","7 7","12 7","12 12","7 12"};
+	protected final Set<String> bonusCoins;
+	
+	protected final Point[] corners;
+	
+	public Game(State init) {
+	  this.state = init;
+    this.number = init.getNumber().get();
+    this.dimension = init.getDimension();
+
+    bonusCoins = new HashSet<String>();
+    for (String coin : bonus) {
+      bonusCoins.add(coin);
+    }
+    
+    this.corners = new Point[]{ new Point(0, 0), new Point(dimension - 1, 0), 
+        new Point(dimension - 1, dimension - 1), new Point(0, dimension - 1) };
+	}
 
 	public Optional<Move> updateState(State newState) {
 		if (newState.getError().isPresent()) {
@@ -20,42 +41,22 @@ public class Game {
 
 		state = newState;
 		if (newState.getNumber().isPresent()) {
-			number = newState.getNumber().get();
-		}
+      number = newState.getNumber().get();
+    }
 
 		return Optional.absent();
 	}
 
-	private Move findMove() {
-		int N = state.getDimension();
-		List<Block> blocks = state.getBlocks().get(number);
+	protected abstract Move findMove();
 
-		for (int x = 0; x < N; x++) {
-			for (int y = 0; y < N; y++) {
-				for (int rot = 0; rot < 4; rot++) {
-					for (int i = 0; i < blocks.size(); i++) {
-						if (canPlace(blocks.get(i).rotate(rot), new Point(x, y))) {
-							return new Move(i, rot, x, y);
-						}
-					}
-				}
-			}
-		}
-
-		return new Move(0, 0, 0, 0);
-	}
-
-	private int getPos(int x, int y) {
+	protected int getPos(int x, int y) {
 		return state.getBoard().get(x).get(y);
 	}
 
-	private boolean canPlace(Block block, Point p) {
+	protected boolean canPlace(Block block, Point p) {
 		boolean onAbsCorner = false, onRelCorner = false;
 		int N = state.getDimension() - 1;
 
-		Point[] corners = { new Point(0, 0), new Point(N, 0), new Point(N, N),
-				new Point(0, N) };
-		;
 		Point corner = corners[number];
 
 		for (Point offset : block.getOffsets()) {
@@ -80,6 +81,7 @@ public class Game {
 					|| (x < N && y < N && getPos(x + 1, y + 1) == number);
 		}
 
-		return !((getPos(corner.getX(), corner.getY()) < 0 && !onAbsCorner) || (!onAbsCorner && !onRelCorner));
+		return !((getPos(corner.getX(), corner.getY()) < 0 && !onAbsCorner) 
+		    || (!onAbsCorner && !onRelCorner));
 	}
 }

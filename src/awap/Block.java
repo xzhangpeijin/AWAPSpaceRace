@@ -28,6 +28,10 @@ public class Block {
 	public void setOffsets(List<Point> offsets) {
 		this.offsets = offsets;
 	}
+	
+	public int size() {
+	  return offsets.size();
+	}
 
 	public Block rotate(final int rotations) {
 		if (rotations == 0) {
