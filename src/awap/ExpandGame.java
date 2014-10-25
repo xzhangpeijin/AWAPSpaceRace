@@ -46,18 +46,16 @@ public class ExpandGame extends Game {
         
         if (aMult) {
           aSize *= 3;
-          Logger.log("A: " + aSize);
         }
         
         if (bMult) {
           bSize *= 3;
-          Logger.log("B: " + bSize);
         }
 
         if (aSize == bSize) {
           return bdist - adist;
         } else {
-          return (bSize - aSize)*400;
+          return bSize - aSize;
         }
       }
     };

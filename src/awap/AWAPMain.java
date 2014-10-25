@@ -14,7 +14,7 @@ public class AWAPMain {
 		ObjectMapper objectMapper = new ObjectMapper();
 		State initState = objectMapper.readValue(reader.readLine(), State.class);
 		
-		Game game = new ExpandGame(initState);
+		Game game = new SmartGame(initState);
 		Logger.log("Player: " + initState.getNumber().get());
 		
 		String nextline;

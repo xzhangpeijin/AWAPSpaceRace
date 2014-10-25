@@ -1,6 +1,7 @@
 package awap;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Optional;
@@ -13,6 +14,8 @@ public abstract class Game {
 	private String[] bonus = {"9 2","17 9","2 10","10 17","7 7","12 7","12 12","7 12"};
 	protected final Set<String> bonusCoins;
 	
+	protected List<Block> blocks;
+	
 	protected final Point[] corners;
 	
 	public Game(State init) {
@@ -20,10 +23,14 @@ public abstract class Game {
     this.number = init.getNumber().get();
     this.dimension = init.getDimension();
 
+    Logger.log("Bonus Coins:");
     bonusCoins = new HashSet<String>();
     for (String coin : bonus) {
       bonusCoins.add(coin);
+      Logger.log(coin.toString());
     }
+    
+    this.blocks = state.getBlocks().get(number);
     
     this.corners = new Point[]{ new Point(0, 0), new Point(dimension - 1, 0), 
         new Point(dimension - 1, dimension - 1), new Point(0, dimension - 1) };
@@ -36,13 +43,16 @@ public abstract class Game {
 		}
 
 		if (newState.getMove() != -1) {
+	    Logger.log("Making move");
 			return Optional.fromNullable(findMove());
 		}
 
+		Logger.log("Updating state");
 		state = newState;
 		if (newState.getNumber().isPresent()) {
       number = newState.getNumber().get();
     }
+		blocks = state.getBlocks().get(number);
 
 		return Optional.absent();
 	}
