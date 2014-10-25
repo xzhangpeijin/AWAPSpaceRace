@@ -2,6 +2,6 @@
 .settings
 .classpath
 bin
-results
+target
 
 .DS_Store
