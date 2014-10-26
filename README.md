@@ -3,6 +3,10 @@ AWAPSpaceRace
 
 Algorithms with a purpose 2014 competition
 
+####Results
+
+Code earned 6th place overall in competition
+
 ####Prerequisites
 
 Requires:
