@@ -9,7 +9,7 @@ Code earned 6th place overall in competition
 
 ####Movement strategy
 
-Algorithm is greedy and optimizes total score at each move. All valid moves are sorted based on a metric. Points scored by the piece dominate the metric, and if any pieces are tied in score, then the piece with the greatest distance away from the player origin is chosen. Effectively this strategy is greedily choosing the piece that will give the most points while and also expand the bounding box of player territory the most.
+Algorithm is greedy and optimizes total score at each move. All valid moves are sorted based on a metric. Points scored by the piece dominate the metric, and if any pieces are tied in score, then the piece with the greatest distance away from the player origin is chosen. Effectively this strategy is greedily choosing the piece that will give the most points while and also expanding the bounding box of player territory the most.
 
 ####Prerequisites
 
